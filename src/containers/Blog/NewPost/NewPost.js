@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axiosInstance from '../../axiosInstance';
+import axiosInstance from '../../../axiosInstance';
 
 import './NewPost.css';
 
