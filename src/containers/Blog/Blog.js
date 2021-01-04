@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 import './Blog.css';
 import Posts from '../../containers/Blog/Posts/Posts';
-import NewPost from '../../containers/Blog/NewPost/NewPost';
+// import NewPost from '../../containers/Blog/NewPost/NewPost';
 import FullPost from '../../containers/Blog/FullPost/FullPost';
+import asyncComponent from '../hoc/asyncComponent';
+import {Route, NavLink, Switch, Redirect} from 'react-router-dom';
 
-import {Route, NavLink} from 'react-router-dom';
-
+const AsysncNewPost = asyncComponent(() => {
+    return import('../../containers/Blog/NewPost/NewPost');
+});
 
 class Blog extends Component {
-
+    state = {
+        auth: true
+    }
     render () {
         return (
-            <div>
-                <header className="Blog">
+            <div  className="Blog">
+                <header>
                     <nav>
                         <ul>
-                            <li><NavLink exact to='/'>Home</NavLink></li>
+                            <li><NavLink to='/posts'>Home</NavLink></li>
                             <li><NavLink to={{
                                         pathname:'/new-post',
                                         hash:'#submit',
@@ -25,9 +30,12 @@ class Blog extends Component {
                 </header>
                 {/* <Route path='/' exact render={() => <p>Home</p>}/>
                 <Route path='/' render={() => <h1>Home 2</h1>}/> */}
-                <Route path='/' exact component={Posts}/>
-                <Route path='/new-post' component={NewPost}/>
-                <Route path='/:id' exact component={FullPost}/>
+                <Switch>
+                    {this.state.auth ? <Route path='/new-post' component={AsysncNewPost}/> : null}
+                    <Route path='/posts' component={Posts}/>
+                    <Route render={() => <h1 style={{textAlign:'center'}}>NOT FOUND</h1>}/>
+                    {/* <Redirect from='/' to='/posts'/> */}
+                </Switch>
             </div>
         );
     }
