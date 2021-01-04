@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Suspense} from 'react';
 import './Blog.css';
 import Posts from '../../containers/Blog/Posts/Posts';
 // import NewPost from '../../containers/Blog/NewPost/NewPost';
@@ -9,6 +9,15 @@ import {Route, NavLink, Switch, Redirect} from 'react-router-dom';
 const AsysncNewPost = asyncComponent(() => {
     return import('../../containers/Blog/NewPost/NewPost');
 });
+
+// Usage of lazy method 
+// const Posts = React.lazy(() => {
+//     return import('../../containers/Blog/Posts/Posts');
+// });
+// Usage lazy loading component with Suspense
+{/* <Suspense fallback={<div>Loading...</div>}>
+    <Post/>
+</Suspense> */}
 
 class Blog extends Component {
     state = {
